@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="navbar">
+        <h2>My Todo App</h2>
+    </div>
+    <div class="data">
+    <input type="text" placeholder="enter your task" id="task"/>
+    <input type="date" id="inputbar">
+    <button onclick="savetask()" >SAVE</button>
+    </div>
+
+    <div id="taskList">
+        <!-- Tasks will be displayed here -->
+    </div>
+
+    <script>
+
+        const mytask= document.getElementById('task');
+        const mydate= document.getElementById('inputbar');
+        const taskList = document.getElementById('taskList');
+        let data = JSON.parse(localStorage.getItem('mytaskdata'))||[];
+        
+        // Display existing tasks on page load
+        displayTasks();
+        
+        const savetask = () => {
+            const taskText = mytask.value.trim();
+            const taskDate = mydate.value;
+            
+            if(taskDate == "" || taskText == ""){
+                alert('please fill the details');
+                return;
+            }
+            
+            // Create a new task object for each task
+            const taskdata = {
+                task: taskText,
+                date: taskDate,
+                id: Date.now() // Add unique ID for deletion
+            };
+            
+            data.push(taskdata);
+            localStorage.setItem('mytaskdata',JSON.stringify(data));
+            
+            // Clear inputs
+            mytask.value = '';
+            mydate.value = '';
+            
+            // Refresh display
+            displayTasks();
+            alert('task added');
+        }
+        
+        const displayTasks = () => {
+            taskList.innerHTML = '';
+            data.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task-item';
+                taskDiv.innerHTML = `
+                    <span>${task.task} - ${task.date}</span>
+                    <button onclick="deleteTask(${index})">Delete</button>
+                `;
+                taskList.appendChild(taskDiv);
+            });
+        }
+        
+        const deleteTask = (index) => {
+            data.splice(index, 1);
+            localStorage.setItem('mytaskdata', JSON.stringify(data));
+            displayTasks();
+        }
+
+    </script>
+</body>
+</html>

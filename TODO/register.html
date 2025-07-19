@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" placeholder="enter your name"/>
+    <input type="email" placeholder="enter email"/>
+    <input type="password" placeholder="enter password"/>
+    <input type="text" placeholder="verify password"/>
+    <button onclick="register()">register</button>
+
+    <script>
+        const mydata = JSON.parse(localStorage.getItem('registerdata')) || [];
+        const userdata = {
+            username:"",
+            email:"",
+            password:""
+        };
+
+        const inputs = document.getElementsByTagName('input');
+        function register(){
+            if (inputs[2].value == inputs[3].value){
+            userdata.username= inputs[0].value;
+            userdata.email = inputs[1].value;
+            userdata.password = inputs[2].value;
+            console.log(userdata);
+            mydata.push(userdata);
+            localStorage.setItem('registerdata', JSON.stringify(mydata));
+
+        }else{
+            alert("password not matched!");
+        }
+        }
+    </script>
+
+</body>
+</html>

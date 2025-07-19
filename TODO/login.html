@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head> 
+<body>
+    <div class="navbar">
+    <input type="text" placeholder="enter email">
+    <input type="password" placeholder="enter password" style="background-color: aquamarine;">
+    <button onclick="login()"> Login </button>
+    </div>
+    <script>
+        const data = JSON.parse(localStorage.getItem('registration')) || [];
+        const inputs= document.getElementsByTagName('input');
+        function login(){
+            console.log(data);
+            console.log(inputs[0].value);
+            const result = data.filter((item)=> item.email==inputs[0].value);
+            if(result.length == 0){
+                alert('registered');
+                
+            }else if(result.password == inputs[2].value){
+                
+                localStorage.setItem('isloggedion',true);
+                location.href = "index.html";
+            }
+            
+            else{
+                alert('invalid usernme/pass');
+            }
+        }
+    </script>
+</body>
+</html>
